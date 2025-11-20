@@ -93,6 +93,27 @@ This project underscores my ability to deliver **end-to-end machine learning sol
 
 Please feel free to reachout for any queries! 
 
+## 🛠 Reproducibility — Setup & Run
+
+**Recommended:** use the provided conda environment.
+
+```bash
+# Create environment from shipped file
+conda env create -f environment.yml
+conda activate TDM
+
+# OR using pip
+conda create -n TDM python=3.10 -y
+conda activate TDM
+pip install -r setup/requirements.txt
+```
+
+**Run the analysis**
+1. Place `term-deposit-marketing-2020.csv` inside the `data/raw` folder.
+2. Open the notebook `notebooks/ExplorationNModeling/TDM.ipynb` and run cells sequentially.
+3. Generated outputs (figures) will be saved to `reports/`.
+
+
 ---
 
 
