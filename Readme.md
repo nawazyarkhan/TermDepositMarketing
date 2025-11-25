@@ -81,15 +81,63 @@ During my role at Apziva, I took ownership of the full workflow: from data inges
 - Packaged the preprocessing and modelling steps into reusable scripts/notebooks that can be run end-to-end (data load → preprocess → train → evaluate → predict).  
 - Provided clear instructions and modular code structure to enable future retraining, monitoring, and inference workflows.
 
+### 7. Clustering and customer segmentation 
+ - The notebook explores unsupervised learning to segment customers:
+- 📌 Methods used:
+    - Agglomerative Clustering
+    - K-Means Clustering
+    - Silhouette Scores to determine the best value of k
+    - The clustering step groups subscribers into meaningful segments based on:
+    - Age
+    - Balance
+    - Duration of last call
+    - Loan status
+    - Campaign calls
+    - Contact method
+    - Seasonality
+
+### 8. Interpretation of Clusters
+
+- Each final cluster is analyzed to understand:
+
+        - Demographics
+
+        - Financial behaviour
+
+        - Loan status
+
+        - Marketing responsiveness
+
+        - Contact channel preference
+
 ## 🧩 Key Contributions & Highlights  
 - Engineered and managed the full ML pipeline for a **business-critical predictive task** in the banking domain.  
 - Developed cyclic encoding for time-dependent features (e.g., month) to capture periodic behaviour.  
 - Implemented robust categorical encoding with unseen-category handling (`handle_unknown='ignore'`), improving production readiness.  
 - Optimised LightGBM hyperparameters specifically for an imbalanced classification problem, improving model performance significantly.  
+- provide a summary on customer segmentation who subscribed the term deposit using k-mean clustering algorithm 
 - Delivered documentation, modular code, and evaluation artifacts ready for hand-off to production or stakeholders.
 
+## 🎯 Outcome: Customer Segmentation
+
+- The workflow results in a set of distinct subscriber clusters, such as:
+
+    - Senior High-Balance Savers
+    - Young Mobile-First Investors
+    - Mid-Age Mortgage Holders
+    - Debt-Free Professionals
+    - High-Risk Borrowers
+
+## 🚀 Business Insights Delivered
+
+- Identified high-value, low-risk depositor segments
+- Detected which groups require more follow-up
+- Mapped customer behaviour to marketing touchpoints
+- Provided segmentation to support personalised outreach
+- Highlighted groups likely to produce highest ROI
+
 ## 🎯 Concluding Remarks 
-This project underscores my ability to deliver **end-to-end machine learning solutions** that translate into measurable business value. I took initiative from data exploration through modelling and evaluation, demonstrating proficiency in handling imbalanced data, engineering meaningful features, and tuning advanced tree-based models.
+This project underscores my ability to deliver **end-to-end machine learning solutions** that translate into measurable business value. I took initiative from data exploration through modelling and evaluation and demonstrating proficiency in handling imbalanced data, engineering meaningful features, and tuning advanced tree-based models along with clustering / segmentation of subscribed customers
 
 Please feel free to reachout for any queries! 
 
