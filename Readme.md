@@ -114,7 +114,8 @@ During my role at Apziva, I took ownership of the full workflow: from data inges
 - Engineered and managed the full ML pipeline for a **business-critical predictive task** in the banking domain.  
 - Developed cyclic encoding for time-dependent features (e.g., month) to capture periodic behaviour.  
 - Implemented robust categorical encoding with unseen-category handling (`handle_unknown='ignore'`), improving production readiness.  
-- Optimised LightGBM hyperparameters specifically for an imbalanced classification problem, improving model performance significantly.  
+- Optimised hyperparameters specifically for an imbalanced classification problem, improving model performance significantly. 
+- catboost has given the best performance after hyperparameter tuning.  
 - provide a summary on customer segmentation who subscribed the term deposit using k-mean clustering algorithm 
 - Delivered documentation, modular code, and evaluation artifacts ready for hand-off to production or stakeholders.
 
