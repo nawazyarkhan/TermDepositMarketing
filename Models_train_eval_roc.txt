@@ -1,0 +1,253 @@
+#LogisticRegression
+###################
+class_weight_dict = {1: 1.0, 0: 6.0}
+model_lr = LogisticRegression(class_weight=class_weight_dict, max_iter=1000, random_state=42)
+pipeline_lr = Pipeline(steps=[('preprocessor', preprocessor),
+                              ('classifier', model_lr)])
+pipeline_lr.fit(X_train, y_train)
+y_pred_lr = pipeline_lr.predict(X_test)
+print("Logistic regression Classifier Results:")
+print('Accuracy score:', accuracy_score(y_test, y_pred_lr))
+print('Precision score:', precision_score(y_test, y_pred_lr))
+print('Recall score:', recall_score(y_test, y_pred_lr))
+print('F1 score:', f1_score(y_test, y_pred_lr))
+print('classification report:\n', classification_report(y_test, y_pred_lr))
+## plot confusion matrix
+sns.heatmap(confusion_matrix(y_test, y_pred_lr), annot=True, fmt='d', cmap='Blues')
+## ROC & AUC
+from sklearn.metrics import roc_curve, auc
+y_pred_proba_lr = pipeline_lr.predict_proba(X_test)[:, 1]
+fpr_lr, tpr_lr, _ = roc_curve(y_test, y_pred_proba_lr)
+roc_auc_lr = auc(fpr_lr, tpr_lr)
+plt.figure()
+plt.plot(fpr_lr, tpr_lr, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc_lr)
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic - Logistic Regression')
+plt.legend(loc="lower right")
+plt.show()
+
+
+#KNeighborsClassifier
+#####################
+class_weight_dict = {0: 1.0, 1: 6} 
+weight_val ='6'
+
+model_knn = KNeighborsClassifier(weights='uniform', n_neighbors=5)
+pipeline_knn = Pipeline(steps=[('preprocessor', preprocessor),
+                              ('classifier', model_knn)])
+pipeline_knn.fit(X_train, y_train)
+y_pred_knn = pipeline_knn.predict(X_test)
+print("KNN Classifier Results:")
+print('Accuracy score:', accuracy_score(y_test, y_pred_knn))
+print('Precision score', precision_score(y_test, y_pred_knn))
+print('Recall score', recall_score(y_test, y_pred_knn))
+print('Confusion Matrix:\n', confusion_matrix(y_test, y_pred_knn))
+print('classification report:\n', classification_report(y_test, y_pred_knn))
+## plot confusion matrix
+sns.heatmap(confusion_matrix(y_test, y_pred_knn), annot=True, fmt='d', cmap='Blues')
+## ROC & AUC
+from sklearn.metrics import roc_curve, auc
+y_pred_proba_knn = pipeline_knn.predict_proba(X_test)[:, 1]
+fpr_knn, tpr_knn, _ = roc_curve(y_test, y_pred_proba_knn)
+roc_auc_knn = auc(fpr_knn, tpr_knn)
+plt.figure()
+plt.plot(fpr_knn, tpr_knn, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc_knn)
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic - KNN')
+plt.legend(loc="lower right")
+plt.show()
+
+
+## train Random Forest Classifier
+class_weight_dict = {0: 1.0, 1: 5}  # keeping class weight of no as 1.0
+model_rf = RandomForestClassifier(n_estimators=300, random_state=42, class_weight=class_weight_dict)
+pipeline_rf = Pipeline(steps=[('preprocessor', preprocessor),
+                               ('classifier', model_rf)])
+### predict the test set results
+pipeline_rf.fit (X_train, y_train)
+y_pred_rf = pipeline_rf.predict(X_test)
+print("Random Forest Classifier Results:")
+print('Accuracy score:', accuracy_score(y_test, y_pred_rf))
+print('Precision score', precision_score(y_test, y_pred_rf))
+print('Recall score', recall_score(y_test, y_pred_rf))
+print('Confusion Matrix:\n', confusion_matrix(y_test, y_pred_rf))
+print('classification report:\n', classification_report(y_test, y_pred_rf))
+## plot confusion matrix
+sns.heatmap(confusion_matrix(y_test, y_pred_rf), annot=True, fmt='d', cmap='Blues')
+plt.title('Confusion Matrix - Random Forest Classifier')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.show()
+## ROC & AUC
+from sklearn.metrics import roc_curve, auc
+y_pred_proba_rf = pipeline_rf.predict_proba(X_test)[:, 1]
+fpr_rf, tpr_rf, _ = roc_curve(y_test, y_pred_proba_rf)
+roc_auc_rf = auc(fpr_rf, tpr_rf)
+plt.figure()
+plt.plot(fpr_rf, tpr_rf, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc_rf)
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic - Random Forest')
+plt.legend(loc="lower right")
+plt.show()
+
+
+
+#xgboost Classifier
+##################
+model_xgb = xgb(n_estimators=300, random_state=42, scale_pos_weight=6,
+                max_depth=6)
+pipeline_xgb = Pipeline(steps=[('preprocessor', preprocessor),
+                               ('classifier', model_xgb)])
+### predict the test set results
+pipeline_xgb.fit (X_train, y_train)
+y_pred_xgb = pipeline_xgb.predict(X_test)
+print("XGBoost Classifier Results:")
+print('Accuracy score:', accuracy_score(y_test, y_pred_xgb))
+print('Precision score', precision_score(y_test, y_pred_xgb))
+print('Recall score', recall_score(y_test, y_pred_xgb))
+print('Confusion Matrix:\n', confusion_matrix(y_test, y_pred_xgb))
+print('classification report:\n', classification_report(y_test, y_pred_xgb))
+## plot confusion matrix
+sns.heatmap(confusion_matrix(y_test, y_pred_xgb), annot=True, fmt='d', cmap='Blues')
+plt.title('Confusion Matrix - XGBoost Classifier')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.show()
+## ROC & AUC
+from sklearn.metrics import roc_curve, auc
+y_pred_proba_xgb = pipeline_xgb.predict_proba(X_test)[:, 1]
+fpr_xgb, tpr_xgb, _ = roc_curve(y_test, y_pred_proba_xgb)
+roc_auc_xgb = auc(fpr_xgb, tpr_xgb)
+plt.figure()
+plt.plot(fpr_xgb, tpr_xgb, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc_xgb)
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic - XGBoost')
+plt.legend(loc="lower right")
+plt.show()
+
+
+#lightgbm classifier
+######################
+import lightgbm as lgb
+class_weight_dict = {0: 1.0, 1: 6}  # keeping class weight of no as 1.0
+model_lgb = lgb.LGBMClassifier(n_estimators=300, random_state=42
+, class_weight=class_weight_dict, max_depth=6, num_leaves=31, min_data_in_leaf=20, min_split_gain=0.0)
+pipeline_lgb = Pipeline(steps=[('preprocessor', preprocessor),
+                               ('classifier', model_lgb)])
+### predict the test set results
+pipeline_lgb.fit (X_train, y_train)
+y_pred_lgb = pipeline_lgb.predict(X_test)
+print("LightGBM Classifier Results:")
+print('Accuracy score:', accuracy_score(y_test, y_pred_lgb))
+print('Precision score', precision_score(y_test, y_pred_lgb))
+print('Recall score', recall_score(y_test, y_pred_lgb))
+print('Confusion Matrix:\n', confusion_matrix(y_test, y_pred_lgb))
+print('classification report:\n', classification_report(y_test, y_pred_lgb))
+## plot confusion matrix
+sns.heatmap(confusion_matrix(y_test, y_pred_lgb), annot=True, fmt='d', cmap='Blues')
+plt.title('Confusion Matrix - LightGBM Classifier')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.show()
+## ROC & AUC
+from sklearn.metrics import roc_curve, auc
+y_pred_proba_lgb = pipeline_lgb.predict_proba(X_test)[:, 1]
+fpr_lgb, tpr_lgb, _ = roc_curve(y_test, y_pred_proba_lgb)
+roc_auc_lgb = auc(fpr_lgb, tpr_lgb)
+plt.figure()
+plt.plot(fpr_lgb, tpr_lgb, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc_lgb)
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic - LightGBM')
+plt.legend(loc="lower right")
+plt.show()
+
+
+
+### decision tree classifier
+#####################################
+class_weight_dict = {0: 1.0, 1: 6}  # keeping class weight of no as 1.0
+model_dt = DecisionTreeClassifier(random_state=42, class_weight=class_weight_dict,max_depth=8)
+pipeline_dt = Pipeline(steps=[('preprocessor', preprocessor),
+                               ('classifier', model_dt)])
+pipeline_dt.fit(X_train, y_train)
+y_pred_dt = pipeline_dt.predict(X_test)
+print("Decision Tree Classifier Results:")
+print('Accuracy score:', accuracy_score(y_test, y_pred_dt))
+print('Precision score', precision_score(y_test, y_pred_dt))
+print('Recall score', recall_score(y_test, y_pred_dt))
+print('Confusion Matrix:\n', confusion_matrix(y_test, y_pred_dt))
+print('classification report:\n', classification_report(y_test, y_pred_dt))
+## plot confusion matrix
+sns.heatmap(confusion_matrix(y_test, y_pred_dt), annot=True, fmt='d', cmap='Blues')
+## ROC & AUC
+from sklearn.metrics import roc_curve, auc
+y_pred_proba_dt = pipeline_dt.predict_proba(X_test)[:, 1]
+fpr_dt, tpr_dt, _ = roc_curve(y_test, y_pred_proba_dt)
+roc_auc_dt = auc(fpr_dt, tpr_dt)
+plt.figure()
+plt.plot(fpr_dt, tpr_dt, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc_dt)
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic - Decision Tree')
+plt.legend(loc="lower right")
+plt.show()
+
+
+### Catboost classifier
+########################
+class_weight_dict = {0: 1.0, 1: 6}  # keeping class weight of no as 1.0
+model_cat = CatBoostClassifier(iterations=300, random_state=42, class_weights=class_weight_dict, depth=6, learning_rate=0.1, verbose=0)
+pipeline_cat = Pipeline(steps=[('preprocessor', preprocessor), 
+                              ('classifier', model_cat)])
+pipeline_cat.fit(X_train, y_train)
+y_pred_cat = pipeline_cat.predict(X_test)
+print("CatBoost Classifier Results:")
+print('Accuracy score:', accuracy_score(y_test, y_pred_cat))
+print('Precision score', precision_score(y_test, y_pred_cat))
+print('Recall score', recall_score(y_test, y_pred_cat))
+print('Confusion Matrix:\n', confusion_matrix(y_test, y_pred_cat))
+print('classification report:\n', classification_report(y_test, y_pred_cat))
+## plot confusion matrix
+sns.heatmap(confusion_matrix(y_test, y_pred_cat), annot=True, fmt='d', cmap='Blues')
+plt.title('Confusion Matrix - CatBoost Classifier')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.show()
+## ROC & AUC
+from sklearn.metrics import roc_curve, auc
+y_pred_proba_cat = pipeline_cat.predict_proba(X_test)[:, 1]
+fpr_cat, tpr_cat, _ = roc_curve(y_test, y_pred_proba_cat)
+roc_auc_cat = auc(fpr_cat, tpr_cat)
+plt.figure()
+plt.plot(fpr_cat, tpr_cat, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % roc_auc_cat)
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic - CatBoost')
+plt.legend(loc="lower right")
+plt.show()

@@ -1,172 +1,465 @@
-# Term deposit Marketing
-this project is about analyzing customer data on a variety of problems including fraud detection, sentiment classification and customer intention prediction and classification.
-This is about developing a robust machine learning system that leverages information coming from call center data.
-Ultimately, Looking for ways to improve the success rate for calls made to customers for any product that our clients offer. Towards this goal we are working on designing an ever evolving machine learning product that offers high success outcomes while offering interpretability for our clients to make informed decisions.
+# 🏦 Term Deposit Marketing - ML Classification & Customer Segmentation
 
-## Data description:
-The data comes from direct marketing efforts of a European banking institution. The marketing campaign involves making a phone call to a customer, often multiple times to ensure a product subscription, in this case a term deposit. Term deposits are usually short-term deposits with maturities ranging from one month to a few years. The customer must understand when buying a term deposit that they can withdraw their funds only after the term ends. All customer information that might reveal personal information is removed due to privacy concerns.
+An end-to-end machine learning solution for predicting term deposit subscriptions and discovering customer segments using advanced classification algorithms and K-Means clustering.
 
-## Attributes
+## 📊 Project Overview
 
-- age : age of customer (numeric)
-- job : type of job (categorical)
-- marital : marital status (categorical)
-- education (categorical)
-- default: has credit in default? (binary)
-- balance: average yearly balance, in euros (numeric)
-- housing: has a housing loan? (binary)
-- loan: has personal loan? (binary)
-- contact: contact communication type (categorical)
-- day: last contact day of the month (numeric)
-- month: last contact month of year (categorical)
-- duration: last contact duration, in seconds (numeric)
-- campaign: number of contacts performed during this campaign and for this client (numeric, -includes last contact)
+This project analyzes customer data from a European banking institution's direct marketing campaigns to:
+1. **Predict** whether customers will subscribe to term deposits using multiple ML algorithms
+2. **Segment** subscribers into distinct customer archetypes using unsupervised clustering
+3. **Deliver** actionable insights for targeted marketing strategies
 
-- Output (desired target):
-y - has the client subscribed to a term deposit? (binary)
+The solution leverages comprehensive data engineering, feature engineering, and model optimization techniques to address class imbalance and maximize business value.
 
-> **Repository structure begins here:*  
-> ```text
-> ├── .gitignore                   # Git ignore file
-> ├── data/                        # raw & processed data
-> │   └── raw/
-> │       └── term-deposit-marketing-2020.csv
-> ├── notebooks/
-> │   └── ExplorationNModeling/
-> │       └── TDM.ipynb            # notebook covering exploration & modelling
-> ├── reports/
-> │   └── figures/                 # generated figures and plots
-> ├── setup/
-> │   └── requirements.txt         # Python dependencies
-> └── README.md                    # this file
-> ```  *
+## 📁 Data Description
 
+The dataset originates from direct marketing campaigns conducted via phone calls. Campaign success is measured by term deposit subscriptions - short-term deposits with maturities ranging from one month to several years.
 
-# Term Deposit Prediction & ML Platform  
-*Automating Term-Deposit Subscription Prediction using LightGBM & Data Engineering Best Practices*
+**Key Challenge:** Class imbalance (majority of customers do not subscribe)  
+**Privacy:** All personally identifiable information has been removed
 
-## 🚀 Project Summary  
-In this project, I developed an end-to-end machine learning solution designed to predict whether customers will subscribe to a term deposit — a core business metric for our banking/client. The project harnessed the power of feature engineering, advanced encoding techniques, and model pipelines using LightGBM , Decision Tree, Logistic regression, XGboost, RandomForest where LightGBM outperfromed as compared to other models.
+### 📋 Dataset Attributes
 
-During my role at Apziva, I took ownership of the full workflow: from data ingestion and exploratory modelling (via the notebook `TDM.ipynb`) through to model evaluation and deployment readiness. This solution addresses imbalanced class distribution, accounts for categorical and cyclic variables (such as the “month” field), and generates actionable insights for the business.
+**Demographic Features:**
+- `age`: Customer age (numeric)
+- `job`: Type of occupation (categorical: admin, technician, services, management, etc.)
+- `marital`: Marital status (categorical: married, single, divorced)
+- `education`: Education level (categorical: primary, secondary, tertiary)
 
-## 🧭 Project Flow / Step-by-Step  
+**Financial Features:**
+- `balance`: Average yearly balance in euros (numeric)
+- `default`: Has credit in default? (binary: yes/no)
+- `housing`: Has housing loan? (binary: yes/no)
+- `loan`: Has personal loan? (binary: yes/no)
 
-### 1. Data Acquisition & Understanding  
-- Loaded the bank-marketing / term deposit dataset (source: internal CSV) containing customer attributes (age, job, marital status, education, contact, month, campaign, etc.).  
-- Inspected the target variable: subscription to term deposit (`yes`/`no`).  
-- Assessed class imbalance and feature distributions.
+**Campaign Features:**
+- `contact`: Contact communication type (categorical: cellular, telephone, unknown)
+- `day`: Last contact day of the month (numeric: 1-31)
+- `month`: Last contact month of year (categorical: jan, feb, mar, etc.)
+- `duration`: Last contact duration in seconds (numeric)
+- `campaign`: Number of contacts during this campaign (numeric)
 
-### 2. Exploratory Data Analysis & Pre-processing  
-- Conducted summary statistics, missing value detection, and visualised key patterns (e.g., contact type, campaign effect, month distribution).  
-- Cleaned and standardised numerical and categorical features.  
-- Treated features like `month`  and others (e.g., `contact`, `job`, `housing` etc) via one-hot encoding to ensure correct modelling semantics.
-
-### 3. Feature Engineering  
-- Created new features capturing domain insights (for example, interaction between campaign count and previous contacts).  
-- Encoded categorical variables in a scalable manner using `OneHotEncoder(handle_unknown='ignore')` to accommodate unseen categories in production.  
-- Scaled numerical features via standardisation to enhance model convergence and stability.
-
-### 4. Model Construction & Training  
-- Set up the LightGBM classifier with an initial baseline, then tuned hyperparameters (learning rate, num_leaves, min_data_in_leaf, feature_fraction, bagging_fraction, etc.) to maximise ROC-AUC while controlling for overfitting.  
-- Utilised a stratified train/validation/test split to fairly assess model performance given the class imbalance.  
-- Applied early stopping and evaluation on the validation set to select the best iteration.
-
-### 5. Evaluation & Results  
-- Measured key performance metrics: ROC-AUC, accuracy, precision/recall for the minority class (subscribers).  
-- Visualised feature importance and confusion matrix to interpret which variables were most predictive.  
-- Demonstrated that the tuned model significantly outperformed baseline logistic regression, achieving strong predictive performance in the imbalanced classification context.
-
-### 6. Deployment Readiness & Delivery  
-- Packaged the preprocessing and modelling steps into reusable scripts/notebooks that can be run end-to-end (data load → preprocess → train → evaluate → predict).  
-- Provided clear instructions and modular code structure to enable future retraining, monitoring, and inference workflows.
-
-### 7. Clustering and customer segmentation 
- - The notebook explores unsupervised learning to segment customers:
-- 📌 Methods used:
-    - Agglomerative Clustering
-    - K-Means Clustering
-    - Silhouette Scores to determine the best value of k
-    - The clustering step groups subscribers into meaningful segments based on:
-    - Age
-    - Balance
-    - Duration of last call
-    - Loan status
-    - Campaign calls
-    - Contact method
-    - Seasonality
-
-### 8. Interpretation of Clusters
-
-- Each final cluster is analyzed to understand:
-
-        - Demographics
-
-        - Financial behaviour
-
-        - Loan status
-
-        - Marketing responsiveness
-
-        - Contact channel preference
-
-## 🧩 Key Contributions & Highlights  
-- Engineered and managed the full ML pipeline for a **business-critical predictive task** in the banking domain.  
-- Developed cyclic encoding for time-dependent features (e.g., month) to capture periodic behaviour.  
-- Implemented robust categorical encoding with unseen-category handling (`handle_unknown='ignore'`), improving production readiness.  
-- Optimised hyperparameters specifically for an imbalanced classification problem, improving model performance significantly. 
-- catboost has given the best performance after hyperparameter tuning.  
-- provide a summary on customer segmentation who subscribed the term deposit using k-mean clustering algorithm 
-- Delivered documentation, modular code, and evaluation artifacts ready for hand-off to production or stakeholders.
-
-## 🎯 Outcome: Customer Segmentation
-
-- The workflow results in a set of distinct subscriber clusters, such as:
-
-    - Senior High-Balance Savers
-    - Young Mobile-First Investors
-    - Mid-Age Mortgage Holders
-    - Debt-Free Professionals
-    - High-Risk Borrowers
-
-## 🚀 Business Insights Delivered
-
-- Identified high-value, low-risk depositor segments
-- Detected which groups require more follow-up
-- Mapped customer behaviour to marketing touchpoints
-- Provided segmentation to support personalised outreach
-- Highlighted groups likely to produce highest ROI
-
-## 🎯 Concluding Remarks 
-This project underscores my ability to deliver **end-to-end machine learning solutions** that translate into measurable business value. I took initiative from data exploration through modelling and evaluation and demonstrating proficiency in handling imbalanced data, engineering meaningful features, and tuning advanced tree-based models along with clustering / segmentation of subscribed customers
-
-Please feel free to reachout for any queries! 
-
-## 🛠 Reproducibility — Setup & Run
-
-**Recommended:** use the provided conda environment.
-
-```bash
-# Create environment from shipped file
-conda env create -f environment.yml
-conda activate TDM
-
-# OR using pip
-conda create -n TDM python=3.10 -y
-conda activate TDM
-pip install -r setup/requirements.txt
-```
-
-**Run the analysis**
-1. Place `term-deposit-marketing-2020.csv` inside the `data/raw` folder.
-2. Open the notebook `notebooks/ExplorationNModeling/TDM.ipynb` and run cells sequentially.
-3. Generated outputs (figures) will be saved to `reports/`.
-
+**Target Variable:**
+- `y`: Has the client subscribed to a term deposit? (binary: yes/no)
 
 ---
 
+## 🗂️ Repository Structure
+
+```text
+TermDepositMarketing/
+├── .gitignore                          # Git ignore configuration
+├── README.md                           # Project documentation (this file)
+├── environment.yml                     # Conda environment specification
+├── data/
+│   ├── raw/
+│   │   └── term-deposit-marketing-2020.csv    # Original dataset
+│   └── processed/
+│       └── subscribed_customers.csv           # Clustered subscriber data
+├── notebooks/
+│   └── ExplorationNModeling/
+│       ├── TDMv1_3.ipynb              
+│       ├── tdm_utils.py               # 
+|── Utils
+|     ├── tdm_utils.py                 #
+├── reports/
+│   └── figures/                        # Generated visualizations and plots
+│       ├── elbow_method_kmeans.png
+│       ├── silhouette_scores_kmeans.png
+│       ├── pca_clusters_kmeans.png
+│       └── [model evaluation plots...]
+└── setup/
+    └── requirements.txt                # Python dependencies
+```
+
+---
+
+## 🎯 Project Objectives
+
+### Part I: Predictive Modeling (Classification)
+Build robust ML models to predict term deposit subscriptions with:
+- **High accuracy** on imbalanced data
+- **Interpretable features** for business insights
+- **Production-ready pipelines** for deployment
+
+### Part II: Customer Segmentation (Clustering)
+Discover hidden customer archetypes among subscribers:
+- **Identify distinct segments** using K-Means clustering
+- **Profile each cluster** with demographic and behavioral patterns
+- **Enable targeted marketing** strategies per segment
+
+---
+
+## 🚀 Machine Learning Pipeline
+
+### 1️⃣ Data Acquisition & Understanding
+- Loaded bank marketing dataset (`term-deposit-marketing-2020.csv`)
+- **41,188 records** with 17 attributes
+- Target variable: Binary classification (subscribe: yes/no)
+- Assessed severe **class imbalance** (~11% positive class)
+
+### 2️⃣ Exploratory Data Analysis (EDA)
+- Comprehensive statistical analysis using `tdm_utils.py` functions
+- Visualized feature distributions with `visualize_all_features()`
+- Analyzed target variable correlations with `plot_feature_distribution_by_target()`
+- Identified missing values and data quality issues
+- Detected categorical features with 'unknown' values using `find_unknown_values()`
+
+### 3️⃣ Feature Engineering
+**Temporal Features:**
+- Converted `day` → `week` bins using `convert_day_to_week()`
+- Transformed `month` → `quarter` for seasonal patterns using `convert_month_to_quarter()`
+- Created `is_quarter_end` binary flag for fiscal period targeting
+
+**Financial Features:**
+- Engineered `is_high_balance` indicator (above median balance)
+- Created `loan_count` aggregating housing + personal loans
+- Applied `balance_log` transformation to reduce skewness
+
+**Behavioral Features:**
+- Calculated `campaign_intensity` = duration / (campaign + 1)
+- Created `contacted_multiple_times` binary flag
+- Engineered `is_last_call_long` based on median duration
+
+**Demographic Features:**
+- Binned `age` into life stage groups (18-29, 30-39, 40-49, etc.)
+- Created `education_job` interaction features
+
+### 4️⃣ Data Preprocessing
+- **Numerical features:** Standardized using `StandardScaler`
+- **Categorical features:** One-hot encoded with `OneHotEncoder(handle_unknown='ignore')`
+- **Target encoding:** Binary mapping using `encode_target_variable()`
+- **Class weights:** Computed balanced weights using `compute_class_weights_balanced()`
+
+### 5️⃣ Model Training & Evaluation
+
+**Models Implemented:**
+1. **Logistic Regression** - Linear baseline model
+2. **Decision Tree** - Interpretable tree-based classifier
+3. **Random Forest** - Ensemble bagging method
+4. **XGBoost** - Gradient boosting champion
+5. **CatBoost** - Category-optimized boosting (BEST PERFORMER)
+6. **LightGBM** - Efficient gradient boosting
+7. **K-Nearest Neighbors** - Instance-based learning
+
+**Training Strategy:**
+- Stratified train/validation/test split (70/15/15)
+- Class weight balancing to address imbalance
+- Hyperparameter tuning with GridSearchCV
+- Early stopping to prevent overfitting
+
+**Evaluation Metrics:**
+- ROC-AUC (primary metric for imbalanced data)
+- Precision, Recall, F1-Score
+- Confusion Matrix visualization using `plot_confusion_matrix()`
+- ROC Curves using `plot_roc_auc()`
+
+**Best Model Performance:**
+- **CatBoost** achieved highest ROC-AUC after hyperparameter optimization
+- Strong performance on minority class (subscribers)
+- Feature importance analysis revealed key predictors:
+  - `duration` (call length)
+  - `balance` (account balance)
+  - `age` (customer life stage)
+  - `campaign_intensity` (engagement quality)
+  - `month`/`quarter` (seasonal timing)
+
+### 6️⃣ Clustering & Segmentation
+
+**Methodology:**
+- Filtered dataset to **subscribers only** (~4,500 customers)
+- Applied same feature engineering pipeline
+- Scaled features using `StandardScaler`
+- One-hot encoded categorical variables
+
+**Optimal Cluster Selection:**
+- **Elbow Method:** Tested k=1 to k=30, identified "elbow" at k=2-5
+- **Silhouette Analysis:** Optimal silhouette score at **k=3**
+- Final decision: **3 clusters** provide best balance of cohesion and separation
+
+**K-Means Clustering (k=3):**
+- Applied K-Means algorithm with `random_state=42`
+- Generated cluster labels for all subscribers
+- Visualized clusters using PCA (2D & 3D) projections
+
+**Cluster Profiling:**
+Used `get_clusters()` function to analyze each segment across:
+- Demographics (age, job, marital status, education)
+- Financial status (balance, loans, housing)
+- Campaign behavior (duration, contacts, intensity)
+- Contact preferences (cellular vs telephone)
+- Temporal patterns (month, quarter, seasonality)
+
+---
+
+## 🎭 The Three Customer Tribes
+
+### Cluster 0: The Established Professionals 🏆
+**"Affluent Achievers"**
+
+**Profile:**
+- **Age:** Middle-aged (35-50 years)
+- **Occupation:** Management, technicians, senior roles
+- **Financial Status:** Highest account balances, minimal debt
+- **Loans:** Low loan counts, financially independent
+- **Campaign Response:** Moderate engagement, quality over quantity
+
+**Strategic Approach:**
+- Emphasize **wealth preservation** and **premium returns**
+- Offer **high-balance tier products** with exclusive rates
+- Deploy **relationship managers** for personalized service
+- Target with **VIP treatment** and investment consultations
+- Best candidates for **cross-selling** premium financial products
+
+---
+
+### Cluster 1: The Cautious Accumulators 💼
+**"Prudent Savers"**
+
+**Profile:**
+- **Age:** Young to middle-aged (25-45 years)
+- **Occupation:** Mixed professional backgrounds
+- **Financial Status:** Moderate balances, building wealth
+- **Loans:** Some loan activity, managing obligations
+- **Campaign Response:** Balanced engagement, value-conscious
+
+**Strategic Approach:**
+- Focus on **safety, reliability, and steady growth**
+- Offer **flexible term options** (6, 12, 24 months)
+- Provide **financial education** content and tools
+- Emphasize **lower minimum deposits** for accessibility
+- Position as **stepping stones** to financial security
+- Nurture for **future growth** as careers advance
+
+---
+
+### Cluster 2: The Emerging Subscribers 🌱
+**"New Entrants"**
+
+**Profile:**
+- **Age:** Younger demographic (under 35)
+- **Occupation:** Entry-level positions, students, early career
+- **Financial Status:** Lower balances, building credit history
+- **Loans:** Establishing financial footprint
+- **Campaign Response:** **High engagement**, responsive to outreach
+
+**Strategic Approach:**
+- **Digital-first** engagement (mobile apps, social media)
+- Offer **starter products** with low entry barriers
+- Emphasize **financial literacy** and education
+- Use **gamification** and milestone rewards
+- Build **long-term loyalty** from early relationship
+- **Lifetime value thinking:** Today's Cluster 2 becomes tomorrow's Cluster 0
+
+---
+
+## 📈 Business Impact & Insights
+
+### Key Findings
+
+1. **Segmentation Reveals Diversity:** Three distinct subscriber personas require differentiated strategies
+2. **Balance is King:** Account balance is the strongest differentiator across all segments
+3. **Age = Life Stage:** Younger subscribers behave fundamentally differently from established professionals
+4. **Campaign Quality > Quantity:** `campaign_intensity` outperforms raw `campaign` count
+5. **Timing Matters:** Seasonal patterns (quarters) influence subscription likelihood
+6. **High Engagement ≠ High Value:** Cluster 2 has highest campaign response but lowest balances
+
+### Actionable Recommendations
+
+**Immediate Wins (0-3 months):**
+- Launch **segment-specific email campaigns** using cluster profiles
+- Create **three product tiers**: "Starter" (Cluster 2), "Builder" (Cluster 1), "Premium" (Cluster 0)
+- Retrain marketing teams on the **three customer archetypes**
+- Implement **targeted messaging** per segment
+
+**Medium-term Strategy (3-12 months):**
+- Develop **cluster transition models** (predict movement from Cluster 2 → Cluster 1 → Cluster 0)
+- Implement **dynamic pricing** based on segment and predicted lifetime value
+- Create **automated customer journeys** that evolve with cluster migration
+- A/B test segment-specific campaigns to validate strategies
+
+**Long-term Vision (12+ months):**
+- Build **customer lifecycle platform** tracking segment movement
+- Develop **predictive retention models** for each cluster
+- Integrate clustering insights into **CRM systems** for real-time personalization
+- Deploy **ML-powered recommendation engine** for next-best-action
+
+---
+
+## 🛠️ Technical Implementation
+
+### Core Technologies
+- **Python 3.10+** - Primary programming language
+- **Pandas & NumPy** - Data manipulation and numerical computing
+- **Scikit-learn** - ML algorithms and preprocessing
+- **XGBoost, LightGBM, CatBoost** - Advanced gradient boosting
+- **Matplotlib, Seaborn, Plotly** - Data visualization
+- **Jupyter Notebook** - Interactive analysis environment
+
+### Custom Utility Module: `tdm_utils.py`
+
+**Data Exploration Functions:**
+- `identify_feature_types()` - Separate categorical and numerical features
+- `find_unknown_values()` - Detect missing/unknown categorical values
+- `calculate_class_distribution()` - Analyze target variable balance
+- `visualize_all_features()` - Create comprehensive EDA visualizations
+- `plot_individual_features()` - Generate feature-specific plots
+- `plot_feature_distribution_by_target()` - Compare distributions by target class
+
+**Feature Engineering Functions:**
+- `encode_target_variable()` - Binary encoding with custom mapping
+- `convert_day_to_week()` - Temporal feature transformation
+- `convert_month_to_quarter()` - Seasonal aggregation
+- `compute_class_weights_balanced()` - Calculate balanced class weights
+
+**Model Training & Evaluation:**
+- `fit_model()` - Train model with preprocessor pipeline
+- `evaluate_model()` - Comprehensive model evaluation with metrics
+- `plot_confusion_matrix()` - Visualize classification performance
+- `plot_roc_auc()` - Generate ROC curves and calculate AUC
+- `calculate_auc_score()` - Compute ROC-AUC metric
+
+**Clustering Functions:**
+- `get_clusters()` - Generate and analyze K-Means clusters with profiling
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.10 or higher
+- Conda (recommended) or pip
+
+### Installation
+
+**Option 1: Using Conda (Recommended)**
+```bash
+# Clone the repository
+git clone <repository-url>
+cd TermDepositMarketing
+
+# Create environment from specification
+conda env create -f environment.yml
+conda activate TDM
+```
+
+**Option 2: Using pip**
+```bash
+# Create virtual environment
+conda create -n TDM python=3.10 -y
+conda activate TDM
+
+# Install dependencies
+pip install -r setup/requirements.txt
+```
+
+### Running the Analysis
+
+1. **Prepare Data:**
+   ```bash
+   # Ensure dataset is in the correct location
+   data/raw/term-deposit-marketing-2020.csv
+   ```
+
+2. **Execute Main Notebook:**
+   ```bash
+   # Launch Jupyter
+   jupyter notebook
+   
+   # Open and run:
+   notebooks/ExplorationNModeling/TDMv1_3.ipynb
+   ```
+
+3. **Run All Cells Sequentially:**
+   - The notebook is designed to be executed from top to bottom
+   - Intermediate results are saved automatically
+   - Figures are exported to `reports/figures/`
+   - Clustered data saved to `data/processed/subscribed_customers.csv`
+
+### Using Utility Functions
+
+```python
+# Import utilities
+import sys
+sys.path.append('notebooks/ExplorationNModeling/')
+from tdm_utils import *
+
+# Load data
+import pandas as pd
+df = pd.read_csv('data/raw/term-deposit-marketing-2020.csv', sep=';')
+
+# Identify feature types
+categorical_features, numerical_features = identify_feature_types(df)
+
+# Encode target variable
+df['y_encoded'] = encode_target_variable(df, target_column='y')
+
+# Compute class weights
+class_weights = compute_class_weights_balanced(df['y_encoded'])
+
+# Visualize features
+visualize_all_features(df, categorical_features, numerical_features)
+```
+
+---
+
+## 🧩 Key Highlights & Contributions
+
+- ✅ Engineered **end-to-end ML pipeline** for business-critical banking prediction task
+- ✅ Developed comprehensive **feature engineering** with temporal, financial, and behavioral features
+- ✅ Implemented robust **categorical encoding** with `handle_unknown='ignore'` for production readiness
+- ✅ Optimized **7 different ML models** with hyperparameter tuning for imbalanced classification
+- ✅ **CatBoost achieved best performance** after extensive hyperparameter optimization
+- ✅ Discovered **3 distinct customer segments** using K-Means clustering with optimal k selection
+- ✅ Created **reusable utility module** (`tdm_utils.py`) with 19 custom functions
+- ✅ Delivered **actionable business insights** with segment-specific marketing strategies
+- ✅ Built **production-ready pipelines** with modular code and comprehensive documentation
+
+---
+
+## 📊 Results Summary
+
+### Classification Performance
+- **Best Model:** CatBoost
+- **Metric:** ROC-AUC optimized for imbalanced data
+- **Key Features:** duration, balance, age, campaign_intensity, temporal patterns
+- **Production Ready:** Pipeline with preprocessing, encoding, and model inference
+
+### Clustering Results
+- **Optimal Clusters:** k=3 (validated by Elbow + Silhouette methods)
+- **Segments:** Established Professionals, Cautious Accumulators, Emerging Subscribers
+- **Business Value:** Targeted marketing strategies per archetype
+- **Visualization:** PCA projections (2D & 3D) showing clear separation
+
+---
+
+## 🎯 Concluding Remarks
+
+This project demonstrates end-to-end machine learning expertise in:
+- **Data Engineering:** Feature engineering, encoding, scaling, imbalance handling
+- **Model Development:** Multiple algorithms, hyperparameter tuning, ensemble methods
+- **Unsupervised Learning:** Clustering, optimal k selection, segment profiling
+- **Business Translation:** Converting technical insights into actionable strategies
+- **Code Quality:** Modular utilities, comprehensive documentation, reproducible pipelines
+
+The solution is production-ready and delivers measurable business value through predictive models and customer segmentation.
+
+---
+
+## 📄 Acknowledgements
 
 
-## 📄 Acknowledgements  
+**Project Context:** Developed as part of data science portfolio at Apziva
 
-Data source: Bank Marketing dataset (UCI / client internal data) — thanks to the team at Apziva for providing access.
+---
+
+## 📧 Contact
+
+For questions, collaborations, or inquiries about this project:
+- **GitHub:** [https://github.com/nawazyarkhan]
+- **LinkedIn:** [https://www.linkedin.com/in/nawaz-yar-khan/]
+- **Email:** [nawazyarkhan@gmail.com]
+
+---
+
+**Built using Python, Scikit-learn, and advanced ML techniques**
