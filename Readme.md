@@ -58,10 +58,9 @@ TermDepositMarketing/
 │       └── subscribed_customers.csv           # Clustered subscriber data
 ├── notebooks/
 │   └── ExplorationNModeling/
-│       ├── TDMv1_3.ipynb              
-│       ├── tdm_utils.py               # 
+│       ├── TDMv1_3.ipynb               # main 
 |── Utils
-|     ├── tdm_utils.py                 #
+|     ├── tdm_utils.py                 # functions used 
 ├── reports/
 │   └── figures/                        # Generated visualizations and plots
 │       ├── elbow_method_kmeans.png
